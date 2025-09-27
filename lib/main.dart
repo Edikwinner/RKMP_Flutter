@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
-              child: Text("Павлов Эдуард Вадимович"),
+              child: Text("Павлов Эдуард Вадимович "),
             ),
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
