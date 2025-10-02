@@ -35,25 +35,25 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
+              padding: EdgeInsetsGeometry.only(right: 16),
               child: Text(
                 "Павлов Эдуард Вадимович",
                 style: TextStyle(color: Colors.green),
               ),
             ),
             Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
+              padding: EdgeInsetsGeometry.only(right: 16),
               child: Text(
                   'ИКБО-06-22',
                   style: TextStyle(color: Colors.green)
               ),
             ),
             Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
+              padding: EdgeInsetsGeometry.only(right: 16),
               child: Text(
                 '22И1754',
                 style: TextStyle(color: Colors.green),
