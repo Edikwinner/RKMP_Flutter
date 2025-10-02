@@ -35,43 +35,47 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Павлов Эдуард Вадимович",
-              style: TextStyle(color: Colors.green),
-            ),
-            SizedBox(
-              width: 2,
-            ),
-            Text(
-                'ИКБО-06-22',
-                style: TextStyle(color: Colors.green)
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              '22И1754',
-              style: TextStyle(color: Colors.green),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            FilledButton(
-              onPressed: () {  },
-              style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.red),
-                  shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0)
-                      )
-                  )
+        child: Container(
+          color: Colors.yellow,
+          padding: EdgeInsetsGeometry.symmetric(vertical: 16),
+          child:  Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsetsGeometry.only(right: 16),
+                child: Text(
+                  "Павлов Эдуард Вадимович",
+                  style: TextStyle(color: Colors.green),
+                ),
               ),
-              child: Text("Click me"),
-            )
-          ],
+              Padding(
+                padding: EdgeInsetsGeometry.only(right: 16),
+                child: Text(
+                    'ИКБО-06-22',
+                    style: TextStyle(color: Colors.green)
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsGeometry.only(right: 16),
+                child: Text(
+                  '22И1754',
+                  style: TextStyle(color: Colors.green),
+                ),
+              ),
+              FilledButton(
+                onPressed: () {  },
+                style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.red),
+                    shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0)
+                        )
+                    )
+                ),
+                child: Text("Click me"),
+              )
+            ],
+          ),
         )
       )
     );
