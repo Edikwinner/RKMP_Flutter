@@ -35,28 +35,22 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
-              child: Text(
-                  "Павлов Эдуард Вадимович",
-                   style: TextStyle(color: Colors.green),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
-              child: Text(
-                  'ИКБО-06-22',
-                  style: TextStyle(color: Colors.green)
-              ),
-            ),
-            Text(
-                '22И1754',
-                 style: TextStyle(color: Colors.green),
+        child: FilledButton(
+          onPressed: () {  },
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(2),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(20),
+                )
+              )
             )
-          ],
+          ),
+          child: Text("Click me"),
         ),
       ),
     );
