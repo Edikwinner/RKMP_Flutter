@@ -40,13 +40,22 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
-              child: Text("Павлов Эдуард Вадимович "),
+              child: Text(
+                  "Павлов Эдуард Вадимович",
+                   style: TextStyle(color: Colors.green),
+              ),
             ),
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
-              child: Text('ИКБО-06-22'),
+              child: Text(
+                  'ИКБО-06-22',
+                  style: TextStyle(color: Colors.green)
+              ),
             ),
-            Text('22И1754')
+            Text(
+                '22И1754',
+                 style: TextStyle(color: Colors.green),
+            )
           ],
         ),
       ),
