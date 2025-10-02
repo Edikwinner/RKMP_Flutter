@@ -38,26 +38,26 @@ class MyHomePage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsetsGeometry.only(right: 16),
-              child: Text(
-                "Павлов Эдуард Вадимович",
-                style: TextStyle(color: Colors.green),
-              ),
+            Text(
+              "Павлов Эдуард Вадимович",
+              style: TextStyle(color: Colors.green),
             ),
-            Padding(
-              padding: EdgeInsetsGeometry.only(right: 16),
-              child: Text(
-                  'ИКБО-06-22',
-                  style: TextStyle(color: Colors.green)
-              ),
+            SizedBox(
+              width: 2,
             ),
-            Padding(
-              padding: EdgeInsetsGeometry.only(right: 16),
-              child: Text(
-                '22И1754',
-                style: TextStyle(color: Colors.green),
-              ),
+            Text(
+                'ИКБО-06-22',
+                style: TextStyle(color: Colors.green)
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              '22И1754',
+              style: TextStyle(color: Colors.green),
+            ),
+            SizedBox(
+              width: 20,
             ),
             FilledButton(
               onPressed: () {  },
