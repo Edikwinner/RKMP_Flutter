@@ -8,19 +8,22 @@ class CarsScreen extends StatefulWidget {
 }
 
 class CarsScreenState extends State<CarsScreen> {
-  int _counter = 0;
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
-  void _incrementCounter() {
+  final List _cars = [];
+
+  void _addCar(String car) {
     setState(() {
-      _counter++;
+      if (car.trim().isNotEmpty) {
+        _cars.add(car);
+      }
     });
   }
 
-  void _decrementCounter() {
+  void _removeCar(int index) {
     setState(() {
-      if (_counter > 0) {
-        _counter--;
-      }
+      _cars.removeAt(index);
     });
   }
 
@@ -28,42 +31,60 @@ class CarsScreenState extends State<CarsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.red, title: Text("Машины")),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(40),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsetsGeometry.all(16),
-              child: Text("Количество машин: $_counter"),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              onSubmitted: (value) {
+                _addCar(value);
+                _controller.clear();
+                FocusScope.of(context).requestFocus(_focusNode);
+              },
+              decoration: InputDecoration(
+                hintText: "Введите название машины",
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _addCar(_controller.text);
+                    _controller.clear();
+                    FocusScope.of(context).requestFocus(_focusNode);
+                  },
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1),
+                ),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsetsGeometry.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _decrementCounter();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.red),
-                    ),
-                    child: Text("-"),
-                  ),
+
+            const SizedBox(height: 16),
+
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _cars
+                      .map(
+                        (car) => Card(
+                          elevation: 2,
+                          child: ListTile(
+                            title: Text(car),
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete_forever),
+                              onPressed: () => _removeCar(_cars.indexOf(car)),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
-                Padding(
-                  padding: EdgeInsetsGeometry.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _incrementCounter();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.red),
-                    ),
-                    child: Text("+"),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
