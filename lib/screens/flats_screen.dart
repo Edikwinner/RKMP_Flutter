@@ -8,65 +8,77 @@ class FlatsScreen extends StatefulWidget {
 }
 
 class FlatsScreenState extends State<FlatsScreen> {
-  int _counter = 0;
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
-  void _incrementCounter() {
+  final List flats = [];
+
+  void _addFlat(String flat) {
     setState(() {
-      _counter++;
+      if (flat.trim().isNotEmpty) {
+        flats.add(flat);
+      }
     });
   }
 
-  void _decrementCounter() {
+  void _removeFlat(int index) {
     setState(() {
-      if (_counter > 0) {
-        _counter--;
-      }
+      flats.removeAt(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text("Квартиры"),
-      ),
-      body: Center(
+      appBar: AppBar(backgroundColor: Colors.orange, title: Text("Квартиры")),
+      body: Padding(
+        padding: const EdgeInsets.all(40),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsetsGeometry.all(16),
-              child: Text("Количество квартир: $_counter"),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              onSubmitted: (value) {
+                _addFlat(value);
+                _controller.clear();
+                FocusScope.of(context).requestFocus(_focusNode);
+              },
+              decoration: InputDecoration(
+                hintText: "Введите название квартиры",
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _addFlat(_controller.text);
+                    _controller.clear();
+                    FocusScope.of(context).requestFocus(_focusNode);
+                  },
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange, width: 1),
+                ),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsetsGeometry.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _decrementCounter();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.orange),
+
+            const SizedBox(height: 16),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: flats.length,
+                itemBuilder: (context, index) => Card(
+                  elevation: 2,
+                  child: ListTile(
+                    title: Text(flats[index]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete_forever),
+                      onPressed: () => _removeFlat(index),
                     ),
-                    child: Text("-"),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsetsGeometry.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _incrementCounter();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.orange),
-                    ),
-                    child: Text("+"),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
