@@ -8,19 +8,24 @@ class HousesScreen extends StatefulWidget {
 }
 
 class HousesScreenState extends State<HousesScreen> {
-  int _counter = 0;
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
-  void _incrementCounter() {
+  final List houses = [];
+
+  void _addHouse(String house) {
     setState(() {
-      _counter++;
+      if (house
+          .trim()
+          .isNotEmpty) {
+        houses.add(house);
+      }
     });
   }
 
-  void _decrementCounter() {
+  void _removeHouse(int index) {
     setState(() {
-      if (_counter > 0) {
-        _counter--;
-      }
+      houses.removeAt(index);
     });
   }
 
@@ -28,42 +33,59 @@ class HousesScreenState extends State<HousesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.amber, title: Text("Дома")),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(40),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsetsGeometry.all(16),
-              child: Text("Количество домов: $_counter"),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              onSubmitted: (value) {
+                _addHouse(value);
+                _controller.clear();
+                FocusScope.of(context).requestFocus(_focusNode);
+              },
+              decoration: InputDecoration(
+                hintText: "Введите название дома",
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _addHouse(_controller.text);
+                    _controller.clear();
+                    FocusScope.of(context).requestFocus(_focusNode);
+                  },
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.amber, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.amber, width: 1),
+                ),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsetsGeometry.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _decrementCounter();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.amber),
+
+            const SizedBox(height: 16),
+
+            Expanded(
+              child: ListView.separated(
+                itemCount: houses.length,
+                itemBuilder: (context, index) =>
+                    ListTile(
+                      title: Text(houses[index]),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete_forever),
+                        onPressed: () => _removeHouse(index),
+                      ),
                     ),
-                    child: Text("-"),
-                  ),
+                separatorBuilder: (BuildContext context, int index) => const Divider(
+                  color: Colors.grey,
+                  height: 5,
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
                 ),
-                Padding(
-                  padding: EdgeInsetsGeometry.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _incrementCounter();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.amber),
-                    ),
-                    child: Text("+"),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
