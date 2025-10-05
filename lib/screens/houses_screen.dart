@@ -72,6 +72,7 @@ class HousesScreenState extends State<HousesScreen> {
                 itemCount: houses.length,
                 itemBuilder: (context, index) =>
                     ListTile(
+                      key: ValueKey(houses[index]),
                       title: Text(houses[index]),
                       trailing: IconButton(
                         icon: Icon(Icons.delete_forever),
