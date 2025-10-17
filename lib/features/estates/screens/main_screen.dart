@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/cars_screen.dart';
-import 'package:flutter_app/screens/flats_screen.dart';
-import 'package:flutter_app/screens/garages_screen.dart';
-import 'package:flutter_app/screens/houses_screen.dart';
-import 'package:flutter_app/screens/money_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+import '../models/estate_model.dart';
+
+class MainScreen extends StatelessWidget {
+  final List<EstateModel> estates;
+
+  final Function() onCar;
+  final Function() onFlat;
+  final Function() onHouse;
+  final Function() onGarage;
+  final Function() onMoney;
+
+  const MainScreen({
+    super.key,
+    required this.estates,
+    required this.onCar,
+    required this.onFlat,
+    required this.onHouse,
+    required this.onGarage,
+    required this.onMoney,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,29 +33,32 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
+              padding: EdgeInsetsGeometry.only(bottom: 8),
               child: Text(
                 "Павлов Эдуард Вадимович",
                 style: TextStyle(color: Colors.black),
               ),
             ),
             Padding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
+              padding: EdgeInsetsGeometry.only(bottom: 8),
               child: Text('ИКБО-06-22', style: TextStyle(color: Colors.black)),
             ),
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
               child: Text('22И1754', style: TextStyle(color: Colors.black)),
             ),
+
+            Padding(
+              padding: EdgeInsetsGeometry.only(bottom: 16),
+              child: Text(
+                'Общая стоимость собственности: ${estates.fold(0, (sum, item) => sum + item.cost)} ₽',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
               child: FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CarsScreen()),
-                  );
-                },
+                onPressed: onCar,
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.red),
                   shape: WidgetStatePropertyAll(
@@ -57,12 +73,7 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
               child: FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FlatsScreen()),
-                  );
-                },
+                onPressed: onFlat,
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.orange),
                   shape: WidgetStatePropertyAll(
@@ -77,12 +88,7 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
               child: FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HousesScreen()),
-                  );
-                },
+                onPressed: onHouse,
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.amber),
                   shape: WidgetStatePropertyAll(
@@ -97,12 +103,7 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
               child: FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GaragesScreen()),
-                  );
-                },
+                onPressed: onGarage,
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.lime),
                   shape: WidgetStatePropertyAll(
@@ -117,12 +118,7 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsetsGeometry.only(bottom: 16),
               child: FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MoneyScreen()),
-                  );
-                },
+                onPressed: onMoney,
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.green),
                   shape: WidgetStatePropertyAll(
