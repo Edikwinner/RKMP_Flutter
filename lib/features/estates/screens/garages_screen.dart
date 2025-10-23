@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_model.dart';
 import 'package:flutter_app/features/estates/widgets/estate_table.dart';
@@ -73,6 +74,20 @@ class GaragesScreenState extends State<GaragesScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: CachedNetworkImage(
+                imageUrl:
+                    "https://cdn-icons-png.flaticon.com/512/887/887258.png",
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                height: 100,
+                width: 100,
+              ),
+            ),
+
+            SizedBox(height: 8),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
