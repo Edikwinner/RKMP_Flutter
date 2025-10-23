@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_model.dart';
 import 'package:flutter_app/features/estates/widgets/estate_table.dart';
@@ -62,7 +63,7 @@ class HousesScreenState extends State<HousesScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        title: Text("Гаражи"),
+        title: Text("Дома"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: widget.onBack,
@@ -73,6 +74,22 @@ class HousesScreenState extends State<HousesScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: CachedNetworkImage(
+                imageUrl:
+                    "https://cdn.pixabay.com/photo/2017/11/10/04/46/home-2935359_1280.png",
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                height: 100,
+                width: 100,
+                imageBuilder: (context, imageProvider) =>
+                    CircleAvatar(radius: 50, backgroundImage: imageProvider),
+              ),
+            ),
+
+            SizedBox(height: 8),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
