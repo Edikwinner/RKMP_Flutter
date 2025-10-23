@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_model.dart';
 import 'package:flutter_app/features/estates/widgets/estate_table.dart';
@@ -25,7 +26,6 @@ class MoneyScreen extends StatefulWidget {
 }
 
 class MoneyScreenState extends State<MoneyScreen> {
-
   final TextEditingController _costController = TextEditingController();
   String? _costErrorText;
 
@@ -42,7 +42,7 @@ class MoneyScreenState extends State<MoneyScreen> {
         _costErrorText = "Некорректный ввод";
       }
 
-      if ( _costErrorText == null && cost != null) {
+      if (_costErrorText == null && cost != null) {
         widget.onAddEstate(EstateModel.create("", cost, widget.tag));
         _costController.clear();
       }
@@ -65,6 +65,20 @@ class MoneyScreenState extends State<MoneyScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: CachedNetworkImage(
+                imageUrl:
+                    "https://cdn.pixabay.com/photo/2016/03/31/21/41/cash-1296585_1280.png",
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                height: 100,
+                width: 100,
+              ),
+            ),
+
+            SizedBox(height: 8),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
