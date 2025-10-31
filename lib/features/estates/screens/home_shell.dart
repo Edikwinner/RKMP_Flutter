@@ -1,42 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_app/features/estates/models/estate_store.dart';
+import 'package:flutter_app/features/estates/screens/cars_screen.dart';
+import 'package:flutter_app/features/estates/screens/flats_screen.dart';
+import 'package:flutter_app/features/estates/screens/garages_screen.dart';
+import 'package:flutter_app/features/estates/screens/houses_screen.dart';
+import 'package:flutter_app/features/estates/screens/money_screen.dart';
 
 class HomeShell extends StatefulWidget {
-  final Widget child;
+  final EstateStore estateStore;
+  final int initialIndex;
 
-  const HomeShell({super.key, required this.child});
+  const HomeShell({
+    super.key,
+    required this.estateStore,
+    required this.initialIndex,
+  });
 
   @override
   State<HomeShell> createState() => _HomeShellState();
 }
 
 class _HomeShellState extends State<HomeShell> {
-  static const _tabs = ['/cars', '/flats', '/houses', '/garages', '/money'];
+  late final int _currentIndex = widget.initialIndex;
 
-  int _getCurrentIndex(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
-    final index = _tabs.indexWhere((tab) => location.startsWith(tab));
-    return index >= 0 ? index : 0;
+  Widget _buildScreen(int index) {
+    switch (index) {
+      case 0:
+        return CarsScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (e) => widget.estateStore.add(e),
+          onDeleteEstate: (id) => widget.estateStore.remove(id),
+          onEstateClick: (id) {},
+        );
+      case 1:
+        return FlatsScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (e) => widget.estateStore.add(e),
+          onDeleteEstate: (id) => widget.estateStore.remove(id),
+          onEstateClick: (id) {},
+        );
+      case 2:
+        return HousesScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (e) => widget.estateStore.add(e),
+          onDeleteEstate: (id) => widget.estateStore.remove(id),
+          onEstateClick: (id) {},
+        );
+      case 3:
+        return GaragesScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (e) => widget.estateStore.add(e),
+          onDeleteEstate: (id) => widget.estateStore.remove(id),
+          onEstateClick: (id) {},
+        );
+      case 4:
+      default:
+        return MoneyScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (e) => widget.estateStore.add(e),
+          onDeleteEstate: (id) => widget.estateStore.remove(id),
+          onEstateClick: (id) {},
+        );
+    }
   }
 
-  void _onTap(int index) {
-    if (index != _getCurrentIndex(context)) {
-      context.go(_tabs[index]);
-    }
+  void _onTabSelected(int index) {
+    if (index == _currentIndex) return;
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            HomeShell(estateStore: widget.estateStore, initialIndex: index),
+        transitionDuration: Duration.zero,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = _getCurrentIndex(context);
-
     return Scaffold(
-      body: widget.child,
+      body: _buildScreen(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: _onTap,
-        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        onTap: _onTabSelected,
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_car_filled),

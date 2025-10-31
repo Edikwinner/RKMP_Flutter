@@ -6,7 +6,6 @@ import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 
 class FlatsScreen extends StatefulWidget {
   final EstateStore estateStore;
-  final VoidCallback onBack;
   final Function(EstateModel) onAddEstate;
   final Function(int) onDeleteEstate;
   final Function(int) onEstateClick;
@@ -16,7 +15,6 @@ class FlatsScreen extends StatefulWidget {
   const FlatsScreen({
     super.key,
     required this.estateStore,
-    required this.onBack,
     required this.onAddEstate,
     required this.onDeleteEstate,
     required this.onEstateClick,
@@ -71,10 +69,6 @@ class FlatsScreenState extends State<FlatsScreen> {
           appBar: AppBar(
             backgroundColor: Colors.orange,
             title: Text("Квартиры"),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: widget.onBack,
-            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(40),

@@ -6,7 +6,6 @@ import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 
 class MoneyScreen extends StatefulWidget {
   final EstateStore estateStore;
-  final VoidCallback onBack;
   final Function(EstateModel) onAddEstate;
   final Function(int) onDeleteEstate;
   final Function(int) onEstateClick;
@@ -16,7 +15,6 @@ class MoneyScreen extends StatefulWidget {
   const MoneyScreen({
     super.key,
     required this.estateStore,
-    required this.onBack,
     required this.onAddEstate,
     required this.onDeleteEstate,
     required this.onEstateClick,
@@ -59,14 +57,7 @@ class MoneyScreenState extends State<MoneyScreen> {
             .where((estate) => estate.tag == widget.tag)
             .toList();
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.green,
-            title: Text("Деньги"),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: widget.onBack,
-            ),
-          ),
+          appBar: AppBar(backgroundColor: Colors.green, title: Text("Деньги")),
           body: Padding(
             padding: const EdgeInsets.all(40),
             child: Column(
