@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_model.dart';
+import 'package:flutter_app/features/estates/models/estate_store.dart';
 import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 
 class CarsScreen extends StatefulWidget {
-  final List<EstateModel> cars;
+  final EstateStore estateStore;
   final VoidCallback onBack;
   final Function(EstateModel) onAddEstate;
   final Function(int) onDeleteEstate;
@@ -14,7 +15,7 @@ class CarsScreen extends StatefulWidget {
 
   const CarsScreen({
     super.key,
-    required this.cars,
+    required this.estateStore,
     required this.onBack,
     required this.onAddEstate,
     required this.onDeleteEstate,
@@ -60,107 +61,126 @@ class CarsScreenState extends State<CarsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: Text("Машины"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: widget.onBack,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: CachedNetworkImage(
-                imageUrl:
-                    "https://cdn.pixabay.com/photo/2018/01/09/15/43/car-3071895_1280.png",
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                height: 100,
-                width: 100,
-                imageBuilder: (context, imageProvider) =>
-                    CircleAvatar(radius: 50, backgroundImage: imageProvider),
-              ),
+    return AnimatedBuilder(
+      animation: widget.estateStore,
+      builder: (context, _) {
+        final cars = widget.estateStore.estates
+            .where((estate) => estate.tag == widget.tag)
+            .toList();
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.red,
+            title: Text("Машины"),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: widget.onBack,
             ),
-
-            SizedBox(height: 8),
-
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextField(
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          hintText: "Введите название машины",
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red, width: 2),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red, width: 1),
-                          ),
-                          errorText: _nameErrorText,
-                        ),
-                      ),
-
-                      SizedBox(height: 8),
-
-                      Center(
-                        child: TextField(
-                          controller: _costController,
-                          decoration: InputDecoration(
-                            hintText: "Введите примерную стоимость машины (₽)",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.red,
-                                width: 2,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.red,
-                                width: 1,
-                              ),
-                            ),
-                            errorText: _costErrorText,
-                          ),
-                        ),
-                      ),
-                    ],
+                Center(
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "https://cdn.pixabay.com/photo/2018/01/09/15/43/car-3071895_1280.png",
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    height: 100,
+                    width: 100,
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 50,
+                      backgroundImage: imageProvider,
+                    ),
                   ),
                 ),
 
-                const SizedBox(width: 8),
+                SizedBox(height: 8),
 
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    _checkAndAdd();
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                              hintText: "Введите название машины",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 1,
+                                ),
+                              ),
+                              errorText: _nameErrorText,
+                            ),
+                          ),
+
+                          SizedBox(height: 8),
+
+                          Center(
+                            child: TextField(
+                              controller: _costController,
+                              decoration: InputDecoration(
+                                hintText:
+                                    "Введите примерную стоимость машины (₽)",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 1,
+                                  ),
+                                ),
+                                errorText: _costErrorText,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(width: 8),
+
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        _checkAndAdd();
+                      },
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                Expanded(
+                  child: EstateTable(
+                    estateList: cars,
+                    onRemoveItem: widget.onDeleteEstate,
+                    onItemClick: widget.onEstateClick,
+                  ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 16),
-
-            Expanded(
-              child: EstateTable(
-                estateList: widget.cars,
-                onRemoveItem: widget.onDeleteEstate,
-                onItemClick: widget.onEstateClick,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
