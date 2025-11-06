@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_model.dart';
 import 'package:flutter_app/features/estates/models/estate_store.dart';
 import 'package:flutter_app/features/estates/widgets/estate_table.dart';
+import 'package:go_router/go_router.dart';
 
 class CarsScreen extends StatefulWidget {
   final EstateStore estateStore;
@@ -81,22 +81,34 @@ class CarsScreenState extends State<CarsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://cdn.pixabay.com/photo/2018/01/09/15/43/car-3071895_1280.png",
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    height: 100,
-                    width: 100,
-                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: 50,
-                      backgroundImage: imageProvider,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        context.pushReplacement("/flats");
+                      },
+                      child: Text("Квартиры"),
                     ),
-                  ),
+                    TextButton(
+                      onPressed: () {
+                        context.pushReplacement("/houses");
+                      },
+                      child: Text("Дома"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pushReplacement("/garages");
+                      },
+                      child: Text("Гаражи"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pushReplacement("/money");
+                      },
+                      child: Text("Деньги"),
+                    ),
+                  ],
                 ),
 
                 SizedBox(height: 8),
