@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_store.dart';
+import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatelessWidget {
   final EstateStore estateStore;
 
-  final Function() onCar;
-  final Function() onFlat;
-  final Function() onHouse;
-  final Function() onGarage;
-  final Function() onMoney;
-
   const MainScreen({
     super.key,
     required this.estateStore,
-    required this.onCar,
-    required this.onFlat,
-    required this.onHouse,
-    required this.onGarage,
-    required this.onMoney,
   });
 
   @override
@@ -63,7 +53,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onCar,
+                    onPressed: () { context.go("/cars"); },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.red),
                       shape: WidgetStatePropertyAll(
@@ -78,7 +68,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onFlat,
+                    onPressed: () { context.go("/flats"); },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.orange),
                       shape: WidgetStatePropertyAll(
@@ -93,7 +83,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onHouse,
+                    onPressed: () { context.go("/houses"); },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.amber),
                       shape: WidgetStatePropertyAll(
@@ -108,7 +98,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onGarage,
+                    onPressed: () { context.go("/garages"); },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.lime),
                       shape: WidgetStatePropertyAll(
@@ -123,7 +113,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onMoney,
+                    onPressed: () { context.go("/money"); },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.green),
                       shape: WidgetStatePropertyAll(
