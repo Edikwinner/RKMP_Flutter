@@ -1,7 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_model.dart';
 import 'package:flutter_app/features/estates/models/estate_store.dart';
+import 'package:flutter_app/features/estates/screens/flats_screen.dart';
+import 'package:flutter_app/features/estates/screens/garages_screen.dart';
+import 'package:flutter_app/features/estates/screens/houses_screen.dart';
+import 'package:flutter_app/features/estates/screens/money_screen.dart';
 import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 
 class CarsScreen extends StatefulWidget {
@@ -10,8 +13,6 @@ class CarsScreen extends StatefulWidget {
   final Function(int) onDeleteEstate;
   final Function(int) onEstateClick;
 
-  final String tag = "car";
-
   const CarsScreen({
     super.key,
     required this.estateStore,
@@ -19,6 +20,8 @@ class CarsScreen extends StatefulWidget {
     required this.onDeleteEstate,
     required this.onEstateClick,
   });
+
+  final String tag = "car";
 
   @override
   State<StatefulWidget> createState() => CarsScreenState();
@@ -57,6 +60,96 @@ class CarsScreenState extends State<CarsScreen> {
     });
   }
 
+  void onCarScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CarsScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (estate) {
+            widget.estateStore.add(estate);
+          },
+          onDeleteEstate: (estate) {
+            widget.estateStore.remove(estate);
+          },
+          onEstateClick: (estate) {},
+        ),
+      ),
+    );
+  }
+
+  void onFlatScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FlatsScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (estate) {
+            widget.estateStore.add(estate);
+          },
+          onDeleteEstate: (estate) {
+            widget.estateStore.remove(estate);
+          },
+          onEstateClick: (estate) {},
+        ),
+      ),
+    );
+  }
+
+  void onHouseScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HousesScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (estate) {
+            widget.estateStore.add(estate);
+          },
+          onDeleteEstate: (estate) {
+            widget.estateStore.remove(estate);
+          },
+          onEstateClick: (estate) {},
+        ),
+      ),
+    );
+  }
+
+  void onGarageScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GaragesScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (estate) {
+            widget.estateStore.add(estate);
+          },
+          onDeleteEstate: (estate) {
+            widget.estateStore.remove(estate);
+          },
+          onEstateClick: (estate) {},
+        ),
+      ),
+    );
+  }
+
+  void onMoneyScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MoneyScreen(
+          estateStore: widget.estateStore,
+          onAddEstate: (estate) {
+            widget.estateStore.add(estate);
+          },
+          onDeleteEstate: (estate) {
+            widget.estateStore.remove(estate);
+          },
+          onEstateClick: (estate) {},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -72,22 +165,20 @@ class CarsScreenState extends State<CarsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://cdn.pixabay.com/photo/2018/01/09/15/43/car-3071895_1280.png",
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    height: 100,
-                    width: 100,
-                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: 50,
-                      backgroundImage: imageProvider,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: onFlatScreen,
+                      child: Text("Квартиры"),
                     ),
-                  ),
+                    TextButton(onPressed: onHouseScreen, child: Text("Дома")),
+                    TextButton(
+                      onPressed: onGarageScreen,
+                      child: Text("Гаражи"),
+                    ),
+                    TextButton(onPressed: onMoneyScreen, child: Text("Деньги")),
+                  ],
                 ),
 
                 SizedBox(height: 8),
