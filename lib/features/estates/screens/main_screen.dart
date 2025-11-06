@@ -1,27 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/estates/models/estate_store.dart';
 
+import 'cars_screen.dart';
+import 'flats_screen.dart';
+import 'garages_screen.dart';
+import 'houses_screen.dart';
+import 'money_screen.dart';
+
 class MainScreen extends StatelessWidget {
   final EstateStore estateStore;
 
-  final Function() onCar;
-  final Function() onFlat;
-  final Function() onHouse;
-  final Function() onGarage;
-  final Function() onMoney;
-
-  const MainScreen({
-    super.key,
-    required this.estateStore,
-    required this.onCar,
-    required this.onFlat,
-    required this.onHouse,
-    required this.onGarage,
-    required this.onMoney,
-  });
+  const MainScreen({super.key, required this.estateStore});
 
   @override
   Widget build(BuildContext context) {
+    void onCarScreen() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CarsScreen(
+            estateStore: estateStore,
+            onAddEstate: (estate) {
+              estateStore.add(estate);
+            },
+            onDeleteEstate: (estate) {
+              estateStore.remove(estate);
+            },
+            onEstateClick: (estate) {},
+          ),
+        ),
+      );
+    }
+
+    void onFlatScreen() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FlatsScreen(
+            estateStore: estateStore,
+            onAddEstate: (estate) {
+              estateStore.add(estate);
+            },
+            onDeleteEstate: (estate) {
+              estateStore.remove(estate);
+            },
+            onEstateClick: (estate) {},
+          ),
+        ),
+      );
+    }
+
+    void onHouseScreen() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HousesScreen(
+            estateStore: estateStore,
+            onAddEstate: (estate) {
+              estateStore.add(estate);
+            },
+            onDeleteEstate: (estate) {
+              estateStore.remove(estate);
+            },
+            onEstateClick: (estate) {},
+          ),
+        ),
+      );
+    }
+
+    void onGarageScreen() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GaragesScreen(
+            estateStore: estateStore,
+            onAddEstate: (estate) {
+              estateStore.add(estate);
+            },
+            onDeleteEstate: (estate) {
+              estateStore.remove(estate);
+            },
+            onEstateClick: (estate) {},
+          ),
+        ),
+      );
+    }
+
+    void onMoneyScreen() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MoneyScreen(
+            estateStore: estateStore,
+            onAddEstate: (estate) {
+              estateStore.add(estate);
+            },
+            onDeleteEstate: (estate) {
+              estateStore.remove(estate);
+            },
+            onEstateClick: (estate) {},
+          ),
+        ),
+      );
+    }
+
     return AnimatedBuilder(
       animation: estateStore,
       builder: (context, _) {
@@ -63,7 +145,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onCar,
+                    onPressed: onCarScreen,
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.red),
                       shape: WidgetStatePropertyAll(
@@ -78,7 +160,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onFlat,
+                    onPressed: onFlatScreen,
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.orange),
                       shape: WidgetStatePropertyAll(
@@ -93,7 +175,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onHouse,
+                    onPressed: onHouseScreen,
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.amber),
                       shape: WidgetStatePropertyAll(
@@ -108,7 +190,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onGarage,
+                    onPressed: onGarageScreen,
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.lime),
                       shape: WidgetStatePropertyAll(
@@ -123,7 +205,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: onMoney,
+                    onPressed: onMoneyScreen,
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.green),
                       shape: WidgetStatePropertyAll(
