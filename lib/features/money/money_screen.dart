@@ -1,33 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/estates/models/estate_model.dart';
-import 'package:flutter_app/features/estates/models/estate_store.dart';
-import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 import 'package:go_router/go_router.dart';
 
-class MoneyScreen extends StatefulWidget {
-  final EstateStore estateStore;
-  final VoidCallback onBack;
-  final Function(EstateModel) onAddEstate;
-  final Function(int) onDeleteEstate;
-  final Function(int) onEstateClick;
+import '../../core/di/estate_provider.dart';
+import '../../core/models/estate_model.dart';
+import '../../core/widgets/estate_table.dart';
 
+
+class MoneyScreen extends StatefulWidget {
   final String tag = "money";
 
-  const MoneyScreen({
-    super.key,
-    required this.estateStore,
-    required this.onBack,
-    required this.onAddEstate,
-    required this.onDeleteEstate,
-    required this.onEstateClick,
-  });
+  const MoneyScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => MoneyScreenState();
 }
 
 class MoneyScreenState extends State<MoneyScreen> {
+  late final estateStore = EstateProvider.of(context).estateStore;
+
   final TextEditingController _costController = TextEditingController();
   String? _costErrorText;
 
@@ -45,7 +35,7 @@ class MoneyScreenState extends State<MoneyScreen> {
       }
 
       if (_costErrorText == null && cost != null) {
-        widget.onAddEstate(EstateModel.create("", cost, widget.tag));
+        estateStore.add(EstateModel.create("", cost, widget.tag));
         _costController.clear();
       }
     });
@@ -54,9 +44,9 @@ class MoneyScreenState extends State<MoneyScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.estateStore,
+      animation: estateStore,
       builder: (context, _) {
-        final money = widget.estateStore.estates
+        final money = estateStore.estates
             .where((estate) => estate.tag == widget.tag)
             .toList();
         return Scaffold(
@@ -65,7 +55,9 @@ class MoneyScreenState extends State<MoneyScreen> {
             title: Text("Деньги"),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: widget.onBack,
+              onPressed: () {
+                context.go("/");
+              },
             ),
           ),
           body: Padding(
@@ -146,8 +138,8 @@ class MoneyScreenState extends State<MoneyScreen> {
                 Expanded(
                   child: EstateTable(
                     estateList: money,
-                    onRemoveItem: widget.onDeleteEstate,
-                    onItemClick: widget.onEstateClick,
+                    onRemoveItem: estateStore.remove,
+                    onItemClick: estateStore.onClick,
                   ),
                 ),
               ],

@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/estates/models/estate_model.dart';
-import 'package:flutter_app/features/estates/models/estate_store.dart';
-import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 import 'package:go_router/go_router.dart';
 
-class CarsScreen extends StatefulWidget {
-  final EstateStore estateStore;
-  final VoidCallback onBack;
-  final Function(EstateModel) onAddEstate;
-  final Function(int) onDeleteEstate;
-  final Function(int) onEstateClick;
+import '../../core/di/estate_provider.dart';
+import '../../core/models/estate_model.dart';
+import '../../core/widgets/estate_table.dart';
 
-  final String tag = "car";
 
-  const CarsScreen({
-    super.key,
-    required this.estateStore,
-    required this.onBack,
-    required this.onAddEstate,
-    required this.onDeleteEstate,
-    required this.onEstateClick,
-  });
+class HousesScreen extends StatefulWidget {
+  final String tag = "house";
+
+  const HousesScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => CarsScreenState();
+  State<StatefulWidget> createState() => HousesScreenState();
 }
 
-class CarsScreenState extends State<CarsScreen> {
+class HousesScreenState extends State<HousesScreen> {
+  late final estateStore = EstateProvider.of(context).estateStore;
+
   final TextEditingController _nameController = TextEditingController();
   String? _nameErrorText;
 
@@ -52,7 +43,7 @@ class CarsScreenState extends State<CarsScreen> {
       }
 
       if (_nameErrorText == null && _costErrorText == null && cost != null) {
-        widget.onAddEstate(EstateModel.create(name, cost, widget.tag));
+        estateStore.add(EstateModel.create(name, cost, widget.tag));
         _nameController.clear();
         _costController.clear();
       }
@@ -62,18 +53,20 @@ class CarsScreenState extends State<CarsScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.estateStore,
+      animation: estateStore,
       builder: (context, _) {
-        final cars = widget.estateStore.estates
+        final houses = estateStore.estates
             .where((estate) => estate.tag == widget.tag)
             .toList();
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.red,
-            title: Text("Машины"),
+            backgroundColor: Colors.amber,
+            title: Text("Дома"),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: widget.onBack,
+              onPressed: () {
+                context.go("/");
+              },
             ),
           ),
           body: Padding(
@@ -86,15 +79,15 @@ class CarsScreenState extends State<CarsScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        context.pushReplacement("/flats");
+                        context.pushReplacement("/cars");
                       },
-                      child: Text("Квартиры"),
+                      child: Text("Машины"),
                     ),
                     TextButton(
                       onPressed: () {
-                        context.pushReplacement("/houses");
+                        context.pushReplacement("/flats");
                       },
-                      child: Text("Дома"),
+                      child: Text("Квартиры"),
                     ),
                     TextButton(
                       onPressed: () {
@@ -123,16 +116,16 @@ class CarsScreenState extends State<CarsScreen> {
                           TextField(
                             controller: _nameController,
                             decoration: InputDecoration(
-                              hintText: "Введите название машины",
+                              hintText: "Введите название",
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.red,
+                                  color: Colors.amber,
                                   width: 2,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.red,
+                                  color: Colors.amber,
                                   width: 1,
                                 ),
                               ),
@@ -147,16 +140,16 @@ class CarsScreenState extends State<CarsScreen> {
                               controller: _costController,
                               decoration: InputDecoration(
                                 hintText:
-                                    "Введите примерную стоимость машины (₽)",
+                                    "Введите примерную стоимость дома (₽)",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.red,
+                                    color: Colors.amber,
                                     width: 2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.red,
+                                    color: Colors.amber,
                                     width: 1,
                                   ),
                                 ),
@@ -183,9 +176,9 @@ class CarsScreenState extends State<CarsScreen> {
 
                 Expanded(
                   child: EstateTable(
-                    estateList: cars,
-                    onRemoveItem: widget.onDeleteEstate,
-                    onItemClick: widget.onEstateClick,
+                    estateList: houses,
+                    onRemoveItem: estateStore.remove,
+                    onItemClick: estateStore.onClick,
                   ),
                 ),
               ],

@@ -1,33 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/estates/models/estate_model.dart';
-import 'package:flutter_app/features/estates/models/estate_store.dart';
-import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 import 'package:go_router/go_router.dart';
 
-class GaragesScreen extends StatefulWidget {
-  final EstateStore estateStore;
-  final VoidCallback onBack;
-  final Function(EstateModel) onAddEstate;
-  final Function(int) onDeleteEstate;
-  final Function(int) onEstateClick;
+import '../../core/di/estate_provider.dart';
+import '../../core/models/estate_model.dart';
+import '../../core/widgets/estate_table.dart';
 
-  final String tag = "garage";
 
-  const GaragesScreen({
-    super.key,
-    required this.estateStore,
-    required this.onBack,
-    required this.onAddEstate,
-    required this.onDeleteEstate,
-    required this.onEstateClick,
-  });
+class CarsScreen extends StatefulWidget {
+  final String tag = "car";
+
+  const CarsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => GaragesScreenState();
+  State<StatefulWidget> createState() => CarsScreenState();
 }
 
-class GaragesScreenState extends State<GaragesScreen> {
+class CarsScreenState extends State<CarsScreen> {
+  late final estateStore = EstateProvider.of(context).estateStore;
+
   final TextEditingController _nameController = TextEditingController();
   String? _nameErrorText;
 
@@ -53,7 +43,7 @@ class GaragesScreenState extends State<GaragesScreen> {
       }
 
       if (_nameErrorText == null && _costErrorText == null && cost != null) {
-        widget.onAddEstate(EstateModel.create(name, cost, widget.tag));
+        estateStore.add(EstateModel.create(name, cost, widget.tag));
         _nameController.clear();
         _costController.clear();
       }
@@ -63,18 +53,20 @@ class GaragesScreenState extends State<GaragesScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.estateStore,
+      animation: estateStore,
       builder: (context, _) {
-        final garages = widget.estateStore.estates
+        final cars = estateStore.estates
             .where((estate) => estate.tag == widget.tag)
             .toList();
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.lime,
-            title: Text("Гаражи"),
+            backgroundColor: Colors.red,
+            title: Text("Машины"),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: widget.onBack,
+              onPressed: () {
+                context.go("/");
+              },
             ),
           ),
           body: Padding(
@@ -87,12 +79,6 @@ class GaragesScreenState extends State<GaragesScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        context.pushReplacement("/cars");
-                      },
-                      child: Text("Машины"),
-                    ),
-                    TextButton(
-                      onPressed: () {
                         context.pushReplacement("/flats");
                       },
                       child: Text("Квартиры"),
@@ -102,6 +88,12 @@ class GaragesScreenState extends State<GaragesScreen> {
                         context.pushReplacement("/houses");
                       },
                       child: Text("Дома"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pushReplacement("/garages");
+                      },
+                      child: Text("Гаражи"),
                     ),
                     TextButton(
                       onPressed: () {
@@ -124,16 +116,16 @@ class GaragesScreenState extends State<GaragesScreen> {
                           TextField(
                             controller: _nameController,
                             decoration: InputDecoration(
-                              hintText: "Введите название",
+                              hintText: "Введите название машины",
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.lime,
+                                  color: Colors.red,
                                   width: 2,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.lime,
+                                  color: Colors.red,
                                   width: 1,
                                 ),
                               ),
@@ -148,16 +140,16 @@ class GaragesScreenState extends State<GaragesScreen> {
                               controller: _costController,
                               decoration: InputDecoration(
                                 hintText:
-                                    "Введите примерную стоимость гаража (₽)",
+                                    "Введите примерную стоимость машины (₽)",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.lime,
+                                    color: Colors.red,
                                     width: 2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.lime,
+                                    color: Colors.red,
                                     width: 1,
                                   ),
                                 ),
@@ -184,9 +176,9 @@ class GaragesScreenState extends State<GaragesScreen> {
 
                 Expanded(
                   child: EstateTable(
-                    estateList: garages,
-                    onRemoveItem: widget.onDeleteEstate,
-                    onItemClick: widget.onEstateClick,
+                    estateList: cars,
+                    onRemoveItem: estateStore.remove,
+                    onItemClick: estateStore.onClick,
                   ),
                 ),
               ],

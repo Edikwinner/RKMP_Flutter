@@ -1,33 +1,22 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/estates/models/estate_model.dart';
-import 'package:flutter_app/features/estates/models/estate_store.dart';
-import 'package:flutter_app/features/estates/widgets/estate_table.dart';
 import 'package:go_router/go_router.dart';
 
-class HousesScreen extends StatefulWidget {
-  final EstateStore estateStore;
-  final VoidCallback onBack;
-  final Function(EstateModel) onAddEstate;
-  final Function(int) onDeleteEstate;
-  final Function(int) onEstateClick;
+import '../../core/di/estate_provider.dart';
+import '../../core/models/estate_model.dart';
+import '../../core/widgets/estate_table.dart';
 
-  final String tag = "house";
+class FlatsScreen extends StatefulWidget {
+  final String tag = "flat";
 
-  const HousesScreen({
-    super.key,
-    required this.estateStore,
-    required this.onBack,
-    required this.onAddEstate,
-    required this.onDeleteEstate,
-    required this.onEstateClick,
-  });
+  const FlatsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => HousesScreenState();
+  State<StatefulWidget> createState() => FlatsScreenState();
 }
 
-class HousesScreenState extends State<HousesScreen> {
+class FlatsScreenState extends State<FlatsScreen> {
+  late final estateStore = EstateProvider.of(context).estateStore;
+
   final TextEditingController _nameController = TextEditingController();
   String? _nameErrorText;
 
@@ -53,7 +42,7 @@ class HousesScreenState extends State<HousesScreen> {
       }
 
       if (_nameErrorText == null && _costErrorText == null && cost != null) {
-        widget.onAddEstate(EstateModel.create(name, cost, widget.tag));
+        estateStore.add(EstateModel.create(name, cost, widget.tag));
         _nameController.clear();
         _costController.clear();
       }
@@ -63,18 +52,20 @@ class HousesScreenState extends State<HousesScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.estateStore,
+      animation: estateStore,
       builder: (context, _) {
-        final houses = widget.estateStore.estates
+        final flats = estateStore.estates
             .where((estate) => estate.tag == widget.tag)
             .toList();
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.amber,
-            title: Text("Дома"),
+            backgroundColor: Colors.orange,
+            title: Text("Квартиры"),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: widget.onBack,
+              onPressed: () {
+                context.go("/");
+              },
             ),
           ),
           body: Padding(
@@ -93,9 +84,9 @@ class HousesScreenState extends State<HousesScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        context.pushReplacement("/flats");
+                        context.pushReplacement("/houses");
                       },
-                      child: Text("Квартиры"),
+                      child: Text("Дома"),
                     ),
                     TextButton(
                       onPressed: () {
@@ -127,13 +118,13 @@ class HousesScreenState extends State<HousesScreen> {
                               hintText: "Введите название",
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.amber,
+                                  color: Colors.orange,
                                   width: 2,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.amber,
+                                  color: Colors.orange,
                                   width: 1,
                                 ),
                               ),
@@ -148,16 +139,16 @@ class HousesScreenState extends State<HousesScreen> {
                               controller: _costController,
                               decoration: InputDecoration(
                                 hintText:
-                                    "Введите примерную стоимость дома (₽)",
+                                    "Введите примерную стоимость квартиры (₽)",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.amber,
+                                    color: Colors.orange,
                                     width: 2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.amber,
+                                    color: Colors.orange,
                                     width: 1,
                                   ),
                                 ),
@@ -184,9 +175,9 @@ class HousesScreenState extends State<HousesScreen> {
 
                 Expanded(
                   child: EstateTable(
-                    estateList: houses,
-                    onRemoveItem: widget.onDeleteEstate,
-                    onItemClick: widget.onEstateClick,
+                    estateList: flats,
+                    onRemoveItem: estateStore.remove,
+                    onItemClick: estateStore.onClick,
                   ),
                 ),
               ],

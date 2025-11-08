@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/estates/models/estate_store.dart';
 import 'package:go_router/go_router.dart';
 
-class MainScreen extends StatelessWidget {
-  final EstateStore estateStore;
+import '../core/di/estate_provider.dart';
 
-  const MainScreen({
-    super.key,
-    required this.estateStore,
-  });
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    late final estateStore = EstateProvider.of(context).estateStore;
     return AnimatedBuilder(
       animation: estateStore,
       builder: (context, _) {
@@ -53,7 +51,9 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: () { context.go("/cars"); },
+                    onPressed: () {
+                      context.go("/cars");
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.red),
                       shape: WidgetStatePropertyAll(
@@ -68,7 +68,9 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: () { context.go("/flats"); },
+                    onPressed: () {
+                      context.go("/flats");
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.orange),
                       shape: WidgetStatePropertyAll(
@@ -83,7 +85,9 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: () { context.go("/houses"); },
+                    onPressed: () {
+                      context.go("/houses");
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.amber),
                       shape: WidgetStatePropertyAll(
@@ -98,7 +102,9 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: () { context.go("/garages"); },
+                    onPressed: () {
+                      context.go("/garages");
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.lime),
                       shape: WidgetStatePropertyAll(
@@ -113,7 +119,9 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.only(bottom: 16),
                   child: FilledButton(
-                    onPressed: () { context.go("/money"); },
+                    onPressed: () {
+                      context.go("/money");
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.green),
                       shape: WidgetStatePropertyAll(

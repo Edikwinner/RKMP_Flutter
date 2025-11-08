@@ -16,4 +16,6 @@ class EstateStore extends ChangeNotifier {
     _estates.removeWhere((e) => e.id == id);
     notifyListeners();
   }
+
+  void onClick(int id) {}
 }

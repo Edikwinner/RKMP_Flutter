@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'features/estates/models/estate_store.dart';
-import 'features/navigation/app_router.dart';
+import '../core/di/estate_provider.dart';
+import '../core/models/estate_store.dart';
+import '../core/navigation/app_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  final estateStore = EstateStore();
+  runApp(EstateProvider(estateStore: estateStore, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -15,9 +17,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final EstateStore estateStore = EstateStore();
+  late final estateStore = EstateProvider.of(context).estateStore;
 
-  late final router = createRouter(estateStore: estateStore);
+  late final router = createRouter();
 
   @override
   Widget build(BuildContext context) {

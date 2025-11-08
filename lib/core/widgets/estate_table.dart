@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/estates/widgets/estate_row.dart';
 
 import '../models/estate_model.dart';
+import 'estate_row.dart';
 
 class EstateTable extends StatelessWidget {
   final List<EstateModel> estateList;
