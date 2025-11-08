@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/di/estate_provider.dart';
 import '../../core/models/estate_model.dart';
+import '../../core/models/estate_store.dart';
 import '../../core/widgets/estate_table.dart';
 
 
@@ -16,7 +17,7 @@ class MoneyScreen extends StatefulWidget {
 }
 
 class MoneyScreenState extends State<MoneyScreen> {
-  late final estateStore = EstateProvider.of(context).estateStore;
+  final estateStore = getIt<EstateStore>();
 
   final TextEditingController _costController = TextEditingController();
   String? _costErrorText;

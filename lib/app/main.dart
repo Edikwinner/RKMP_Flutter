@@ -5,8 +5,8 @@ import '../core/models/estate_store.dart';
 import '../core/navigation/app_router.dart';
 
 void main() {
-  final estateStore = EstateStore();
-  runApp(EstateProvider(estateStore: estateStore, child: const MyApp()));
+  setupProvider();
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -17,7 +17,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final estateStore = EstateProvider.of(context).estateStore;
 
   late final router = createRouter();
 

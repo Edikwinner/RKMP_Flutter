@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/models/estate_store.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/di/estate_provider.dart';
@@ -9,7 +10,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final estateStore = EstateProvider.of(context).estateStore;
+    final estateStore = getIt<EstateStore>();
     return AnimatedBuilder(
       animation: estateStore,
       builder: (context, _) {
