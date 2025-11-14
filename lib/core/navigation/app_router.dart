@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/main_screen.dart';
 
-
 GoRouter createRouter() {
   return GoRouter(
     initialLocation: '/',

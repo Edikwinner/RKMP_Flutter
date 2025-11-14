@@ -1,21 +1,24 @@
-import 'package:flutter/foundation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'estate_model.dart';
 
-class EstateStore extends ChangeNotifier {
-  final List<EstateModel> _estates = [];
+part 'estate_store.g.dart';
 
-  List<EstateModel> get estates => List.unmodifiable(_estates);
+@riverpod
+class EstateStore extends _$EstateStore {
+  @override
+  List<EstateModel> build() {
+    return [];
+  }
 
   void add(EstateModel e) {
-    _estates.add(e);
-    notifyListeners();
+    state = [...state, e];
   }
 
   void remove(int id) {
-    _estates.removeWhere((e) => e.id == id);
-    notifyListeners();
+    state = state.where((e) => e.id != id).toList();
   }
 
-  void onClick(int id) {}
+  void onClick(int id) {
+  }
 }

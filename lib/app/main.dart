@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/di/estate_provider.dart';
-import '../core/models/estate_store.dart';
 import '../core/navigation/app_router.dart';
 
 void main() {
-  setupProvider();
-  runApp(MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -17,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   late final router = createRouter();
 
   @override
