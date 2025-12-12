@@ -79,25 +79,37 @@ class FlatsScreenState extends ConsumerState<FlatsScreen> {
                   onPressed: () {
                     context.pushReplacement("/cars");
                   },
-                  child: Text("Машины"),
+                  child: Text("Машины", style: TextStyle(color: Colors.red),),
                 ),
                 TextButton(
                   onPressed: () {
                     context.pushReplacement("/houses");
                   },
-                  child: Text("Дома"),
+                  child: Text("Дома", style: TextStyle(color: Colors.amber)),
                 ),
                 TextButton(
                   onPressed: () {
                     context.pushReplacement("/garages");
                   },
-                  child: Text("Гаражи"),
+                  child: Text("Гаражи", style: TextStyle(color: Colors.green)),
                 ),
                 TextButton(
                   onPressed: () {
                     context.pushReplacement("/money");
                   },
-                  child: Text("Деньги"),
+                  child: Text("Деньги", style: TextStyle(color: Colors.lightBlueAccent)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.pushReplacement("/lands");
+                  },
+                  child: Text("Земли", style: TextStyle(color: Colors.blueAccent)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.pushReplacement("/motocycles");
+                  },
+                  child: Text("Мотоциклы", style: TextStyle(color: Colors.purple)),
                 ),
               ],
             ),

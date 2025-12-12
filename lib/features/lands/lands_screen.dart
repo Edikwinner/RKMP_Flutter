@@ -6,36 +6,45 @@ import '../../core/models/estate_model.dart';
 import '../../core/models/estate_store.dart';
 import '../../core/widgets/estate_table.dart';
 
-class MoneyScreen extends ConsumerStatefulWidget {
-  final String tag = "money";
+class LandsScreen extends ConsumerStatefulWidget {
+  final String tag = "house";
 
-  const MoneyScreen({super.key});
+  const LandsScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => MoneyScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => LandsScreenState();
 }
 
-class MoneyScreenState extends ConsumerState<MoneyScreen> {
+class LandsScreenState extends ConsumerState<LandsScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  String? _nameErrorText;
+
   final TextEditingController _costController = TextEditingController();
   String? _costErrorText;
 
   void _checkAndAdd() {
+    final name = _nameController.text.trim();
     final costText = _costController.text.trim();
     final cost = int.tryParse(costText);
 
     setState(() {
+      _nameErrorText = null;
       _costErrorText = null;
 
+      if (name.isEmpty) {
+        _nameErrorText = "Введите название";
+      }
       if (costText.isEmpty) {
         _costErrorText = "Введите стоимость";
       } else if (cost == null) {
         _costErrorText = "Некорректный ввод";
       }
 
-      if (_costErrorText == null && cost != null) {
+      if (_nameErrorText == null && _costErrorText == null && cost != null) {
         ref
             .read(estateStoreProvider.notifier)
-            .add(EstateModel.create("", cost, widget.tag));
+            .add(EstateModel.create(name, cost, widget.tag));
+        _nameController.clear();
         _costController.clear();
       }
     });
@@ -43,14 +52,14 @@ class MoneyScreenState extends ConsumerState<MoneyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final money = ref
+    final lands = ref
         .watch(estateStoreProvider)
         .where((estate) => estate.tag == widget.tag)
         .toList();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent,
-        title: Text("Деньги"),
+        backgroundColor: Colors.blueAccent,
+        title: Text("Земли"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -92,9 +101,9 @@ class MoneyScreenState extends ConsumerState<MoneyScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    context.pushReplacement("/lands");
+                    context.pushReplacement("/money");
                   },
-                  child: Text("Земли", style: TextStyle(color: Colors.blueAccent)),
+                  child: Text("Деньги", style: TextStyle(color: Colors.lightBlueAccent)),
                 ),
                 TextButton(
                   onPressed: () {
@@ -111,18 +120,53 @@ class MoneyScreenState extends ConsumerState<MoneyScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _costController,
-                    decoration: InputDecoration(
-                      hintText: "Введите количество денег (₽)",
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          hintText: "Введите название",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueAccent,
+                              width: 2,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueAccent,
+                              width: 1,
+                            ),
+                          ),
+                          errorText: _nameErrorText,
+                        ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.lightBlueAccent, width: 1),
+
+                      SizedBox(height: 8),
+
+                      Center(
+                        child: TextField(
+                          controller: _costController,
+                          decoration: InputDecoration(
+                            hintText: "Введите примерную стоимость земли (₽)",
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blueAccent,
+                                width: 2,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blueAccent,
+                                width: 1,
+                              ),
+                            ),
+                            errorText: _costErrorText,
+                          ),
+                        ),
                       ),
-                      errorText: _costErrorText,
-                    ),
+                    ],
                   ),
                 ),
 
@@ -141,7 +185,7 @@ class MoneyScreenState extends ConsumerState<MoneyScreen> {
 
             Expanded(
               child: EstateTable(
-                estateList: money,
+                estateList: lands,
                 onRemoveItem: (id) =>
                     ref.read(estateStoreProvider.notifier).remove(id),
                 onItemClick: (id) =>

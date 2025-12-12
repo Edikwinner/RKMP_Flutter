@@ -98,7 +98,7 @@ class MainScreen extends ConsumerWidget {
                   context.go("/garages");
                 },
                 style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.lime),
+                  backgroundColor: WidgetStatePropertyAll(Colors.green),
                   shape: WidgetStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -115,7 +115,7 @@ class MainScreen extends ConsumerWidget {
                   context.go("/money");
                 },
                 style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.green),
+                  backgroundColor: WidgetStatePropertyAll(Colors.lightBlueAccent),
                   shape: WidgetStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -123,6 +123,40 @@ class MainScreen extends ConsumerWidget {
                   ),
                 ),
                 child: Text("Деньги"),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsGeometry.only(bottom: 16),
+              child: FilledButton(
+                onPressed: () {
+                  context.go("/lands");
+                },
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.blueAccent),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                ),
+                child: Text("Земли"),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsGeometry.only(bottom: 16),
+              child: FilledButton(
+                onPressed: () {
+                  context.go("/motocycles");
+                },
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.purple),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                ),
+                child: Text("Мотоциклы"),
               ),
             ),
           ],

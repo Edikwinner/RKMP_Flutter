@@ -58,7 +58,7 @@ class GaragesScreenState extends ConsumerState<GaragesScreen> {
         .toList();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lime,
+        backgroundColor: Colors.green,
         title: Text("Гаражи"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -79,25 +79,37 @@ class GaragesScreenState extends ConsumerState<GaragesScreen> {
                   onPressed: () {
                     context.pushReplacement("/cars");
                   },
-                  child: Text("Машины"),
+                  child: Text("Машины", style: TextStyle(color: Colors.red),),
                 ),
                 TextButton(
                   onPressed: () {
                     context.pushReplacement("/flats");
                   },
-                  child: Text("Квартиры"),
+                  child: Text("Квартиры", style: TextStyle(color: Colors.orange)),
                 ),
                 TextButton(
                   onPressed: () {
                     context.pushReplacement("/houses");
                   },
-                  child: Text("Дома"),
+                  child: Text("Дома", style: TextStyle(color: Colors.amber)),
                 ),
                 TextButton(
                   onPressed: () {
                     context.pushReplacement("/money");
                   },
-                  child: Text("Деньги"),
+                  child: Text("Деньги", style: TextStyle(color: Colors.lightBlueAccent)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.pushReplacement("/lands");
+                  },
+                  child: Text("Земли", style: TextStyle(color: Colors.blueAccent)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.pushReplacement("/motocycles");
+                  },
+                  child: Text("Мотоциклы", style: TextStyle(color: Colors.purple)),
                 ),
               ],
             ),
@@ -117,13 +129,13 @@ class GaragesScreenState extends ConsumerState<GaragesScreen> {
                           hintText: "Введите название",
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.lime,
+                              color: Colors.green,
                               width: 2,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.lime,
+                              color: Colors.green,
                               width: 1,
                             ),
                           ),
@@ -140,13 +152,13 @@ class GaragesScreenState extends ConsumerState<GaragesScreen> {
                             hintText: "Введите примерную стоимость гаража (₽)",
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.lime,
+                                color: Colors.green,
                                 width: 2,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.lime,
+                                color: Colors.green,
                                 width: 1,
                               ),
                             ),
